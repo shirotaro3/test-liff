@@ -67,6 +67,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    publicPath: '/static/',
+    extend(config, ctx) {
+    },
   },
 
   generate: {
