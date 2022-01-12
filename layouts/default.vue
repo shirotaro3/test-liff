@@ -1,5 +1,11 @@
 <template>
-  <nuxt />
+  <v-app>
+    <v-main>
+      <v-container>
+        <nuxt />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -25,7 +31,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'TestLiff'
     }
   }
 }
