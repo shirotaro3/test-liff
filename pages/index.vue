@@ -1,34 +1,93 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-text-field
-        v-model="formData.text"
-        clearable
-        solo
-        dense
-      ></v-text-field>
-    </v-col>
-    <v-col>
-      <v-btn
-        icon
+  <v-container>
+    <v-row align="center"
+              class="spacer"
+              no-gutters>
+      <v-col cols="2">
+        <v-avatar size="30">
+          <img
+            v-bind:src="user.pictureUrl"
+          >
+        </v-avatar>
+      </v-col>
+      <v-col>
+        {{user.displayName}}
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="10">
+        <v-text-field
+          v-model="formData.text"
+          clearable
+          dense
+        ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <v-btn
+          icon
+          color="primary"
+          v-on:click="onSubmit()"
+        >
+          <v-icon>mdi-send</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+      <v-bottom-navigation
         color="primary"
-        v-on:click="onSubmit()"
+        grow
+        v-model="value"
       >
-        <v-icon>mdi-send</v-icon>
-      </v-btn>
-    </v-col>
-  </v-row>
+        <v-btn>
+          <span>Star</span>
+
+          <v-icon>mdi-star</v-icon>
+        </v-btn>
+
+        <v-btn>
+          <span>Heart</span>
+
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+
+        <v-btn>
+          <span>ThumbUp</span>
+
+          <v-icon>mdi-thumb-up</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
+  </v-container>
 </template>
 
 <script>
+const stickers =
+[
+  {
+    packageId: "8515",
+    stickerId: "16581252"
+  },
+  {
+    packageId: "8515",
+    stickerId: "16581253"
+  },
+  {
+    packageId: "8515",
+    stickerId: "16581242"
+  }
+]
 export default {
-  name: 'IndexPage',
+  name: `Index`,
   data() {
     return {
       formData: {
-        text: ''
+        text: ``
       },
-      lineId: null
+      value: 0,
+      lineId: ``,
+      user: {
+        displayName: ``,
+        pictureUrl: ``
+      }
     }
   },
   mounted() {
@@ -36,10 +95,16 @@ export default {
       return
     }
 
-    window.liff.init({ liffId: "1656800308-xdn43o2Y" })
+    window.liff.init({ liffId: `1656800308-xdn43o2Y` })
+    window.liff.getProfile()
+      .then(profile => {
+        this.user.displayName = profile.displayName
+        this.user.pictureUrl = profile.pictureUrl
+      })
   },
   methods: {
     onSubmit() {
+      console.log(stickers[this.value])
       if (!this.canUseLIFF()) {
         return
       }
@@ -47,15 +112,20 @@ export default {
       window.liff
         .sendMessages([
           {
-            type: 'text',
-            text: `Hello!\n${this.formData.text}`
+            type: `sticker`,
+            packageId: stickers[this.value].packageId,
+            stickerId: stickers[this.value].stickerId
+          },
+          {
+            type: `text`,
+            text: `${this.formData.text}`
           }
         ])
         .then(() => {
           window.liff.closeWindow()
         })
         .catch(e => {
-          window.alert('Error sending message: ' + e)
+          window.alert(`Error sending message: ${e}`)
         })
     },
     handleCancel() {
@@ -65,7 +135,7 @@ export default {
       window.liff.closeWindow()
     },
     canUseLIFF() {
-      return navigator.userAgent.indexOf('Line') !== -1 && window.liff
+      return navigator.userAgent.indexOf(`Line`) !== -1 && window.liff
     }
   }
 }
