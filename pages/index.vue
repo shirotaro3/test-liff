@@ -18,9 +18,9 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-row>
       <v-bottom-navigation
         color="primary"
-        grow
         v-model="value"
       >
         <v-btn>
@@ -41,6 +41,7 @@
           <v-icon>mdi-thumb-up</v-icon>
         </v-btn>
       </v-bottom-navigation>
+    </v-row>
   </v-container>
 </template>
 
@@ -48,16 +49,16 @@
 const stickers =
 [
   {
-    packageId: "8515",
-    stickerId: "16581252"
+    packageId: "11539",
+    stickerId: "52114116"
   },
   {
-    packageId: "8515",
-    stickerId: "16581253"
+    packageId: "11539",
+    stickerId: "52114111"
   },
   {
-    packageId: "8515",
-    stickerId: "16581242"
+    packageId: "11539",
+    stickerId: "52114115"
   }
 ]
 export default {
@@ -85,6 +86,11 @@ export default {
   methods: {
     onSubmit() {
       console.log(stickers[this.value])
+      console.log({
+            type: `sticker`,
+            packageId: stickers[this.value].packageId,
+            stickerId: stickers[this.value].stickerId
+          })
       if (!this.canUseLIFF()) {
         return
       }
@@ -106,6 +112,7 @@ export default {
         })
         .catch(e => {
           window.alert(`Error sending message: ${e}`)
+          window.alert(`${stickers[this.value].packageId}, ${stickers[this.value].stickerId}`)
         })
     },
     handleCancel() {
