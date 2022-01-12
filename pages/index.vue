@@ -36,9 +36,7 @@ export default {
       return
     }
 
-    window.liff.init(data => {
-      this.lineId = data.context.userId || null
-    })
+    window.liff.init({ liffId: "1656800308-xdn43o2Y" })
   },
   methods: {
     onSubmit() {
