@@ -1,22 +1,7 @@
 <template>
   <v-container>
-    <v-row align="center"
-              class="spacer"
-              no-gutters>
-      <v-col cols="2">
-        <v-avatar size="30">
-          <img
-            v-bind:src="user.pictureUrl"
-          >
-        </v-avatar>
-      </v-col>
-      <v-col>
-        {{user.displayName}}
-      </v-col>
-    </v-row>
-
     <v-row>
-      <v-col cols="10">
+      <v-col>
         <v-text-field
           v-model="formData.text"
           clearable
@@ -96,11 +81,6 @@ export default {
     }
 
     window.liff.init({ liffId: `1656800308-xdn43o2Y` })
-    window.liff.getProfile()
-      .then(profile => {
-        this.user.displayName = profile.displayName
-        this.user.pictureUrl = profile.pictureUrl
-      })
   },
   methods: {
     onSubmit() {
