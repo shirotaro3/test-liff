@@ -74,5 +74,9 @@ export default {
 
   generate: {
     dir: "docs"
+  },
+
+  router: {
+    base: '/test-liff/'
   }
 }
